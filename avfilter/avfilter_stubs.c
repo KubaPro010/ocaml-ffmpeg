@@ -44,7 +44,8 @@ CAMLprim value ocaml_avfilter_alloc_pads(const AVFilterPad *pads, int pad_count,
 
   for (i = 0; i < pad_count; i++) {
     pad = caml_alloc_tuple(6);
-    Store_field(pad, 0, caml_copy_string(avfilter_pad_get_name(pads, i)));
+    const char *pad_name = avfilter_pad_get_name(pads, i);
+    Store_field(pad, 0, caml_copy_string(pad_name ? pad_name : ""));
     Store_field(pad, 1, caml_copy_string(name));
 
     switch (avfilter_pad_get_type(pads, i)) {
